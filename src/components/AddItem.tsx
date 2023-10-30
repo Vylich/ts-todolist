@@ -1,3 +1,5 @@
+import { ControlPoint } from '@mui/icons-material';
+import { Button, IconButton, TextField } from '@mui/material';
 import React, { ChangeEvent, KeyboardEvent, useState } from 'react'
 
 type AddItemPropsType = {
@@ -31,14 +33,17 @@ function AddItem(props: AddItemPropsType) {
 
   return (
       <div>
-        <input
+        <TextField
           value={newTaskTitle}
           onChange={onTitleChangeHandler}
           onKeyPress={onKeyPressHandler}
-          className={error ? 'error' : ''}
+          error={!!error}
+          label={'Type value'}
+          helperText={error}
         />
-        <button onClick={addTask}>+</button>
-        {error ? <div className={'error-message'}>Field is required</div> : ''}
+        <IconButton onClick={addTask} color={'primary'}>
+          <ControlPoint />
+        </IconButton>
       </div>
   )
 }

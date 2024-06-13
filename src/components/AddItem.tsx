@@ -1,14 +1,13 @@
-import { ControlPoint } from '@mui/icons-material';
-import { Button, IconButton, TextField } from '@mui/material';
-import React, { ChangeEvent, KeyboardEvent, useState } from 'react'
+import { ControlPoint } from "@mui/icons-material";
+import { Button, IconButton, TextField } from "@mui/material";
+import React, { ChangeEvent, KeyboardEvent, memo, useState } from "react";
 
 type AddItemPropsType = {
   addItem: (title: string) => void;
-}
+};
 
-function AddItem(props: AddItemPropsType) {
-
-  const [newTaskTitle, setNewTaskTitle] = useState('');
+const AddItem = memo((props: AddItemPropsType) => {
+  const [newTaskTitle, setNewTaskTitle] = useState<string>("");
   const [error, setError] = useState<string | null>(null);
 
   const onTitleChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
@@ -16,36 +15,38 @@ function AddItem(props: AddItemPropsType) {
   };
 
   const onKeyPressHandler = (e: KeyboardEvent<HTMLInputElement>) => {
-    setError(null);
+    if (error !== null) {
+      setError(null);
+    }
     if (e.charCode === 13) {
-      addTask()
+      addTask();
     }
   };
 
   const addTask = () => {
-    if (newTaskTitle.trim() !== '') {
+    if (newTaskTitle.trim() !== "") {
       props.addItem(newTaskTitle.trim());
-      setNewTaskTitle('');
+      setNewTaskTitle("");
     } else {
-      setError('Title is required!');
+      setError("Title is required!");
     }
   };
 
   return (
-      <div>
-        <TextField
-          value={newTaskTitle}
-          onChange={onTitleChangeHandler}
-          onKeyPress={onKeyPressHandler}
-          error={!!error}
-          label={'Type value'}
-          helperText={error}
-        />
-        <IconButton onClick={addTask} color={'primary'}>
-          <ControlPoint />
-        </IconButton>
-      </div>
-  )
-}
+    <div>
+      <TextField
+        value={newTaskTitle}
+        onChange={onTitleChangeHandler}
+        onKeyPress={onKeyPressHandler}
+        error={!!error}
+        label={"Type value"}
+        helperText={error}
+      />
+      <IconButton onClick={addTask} color={"primary"}>
+        <ControlPoint />
+      </IconButton>
+    </div>
+  );
+});
 
-export default AddItem
+export default AddItem;
